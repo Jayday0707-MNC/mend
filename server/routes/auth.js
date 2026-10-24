@@ -124,8 +124,9 @@ router.post('/login', async (req, res) => {
 
 router.get('/me', requireAuth, async (req, res) => {
   try {
-    const result = await pool.query(
-      `SELECT u.id, u.email, u.role, c.id AS community_id, c.name AS community_name, c.slug AS community_slug
+        const result = await pool.query(
+      `SELECT u.id, u.email, u.role, c.id AS community_id, c.name AS community_name,
+              c.slug AS community_slug, c.center_lat, c.center_lng
        FROM users u JOIN communities c ON c.id = u.community_id
        WHERE u.id = $1 AND u.community_id = $2`,
       [req.user.id, req.user.communityId]
